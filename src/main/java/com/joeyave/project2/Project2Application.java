@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @SpringBootApplication
@@ -55,8 +57,9 @@ public class Project2Application implements ApplicationRunner {
                 fileStream = fileStream.filter(p -> p.toFile().canWrite());
             }
 
-            String regex = args.getOptionValues("ignore").get(0);
-            if (!regex.isEmpty()) {
+            List<String> optionValues = args.getOptionValues("ignore");
+            if (Objects.nonNull(optionValues)) {
+                String regex = optionValues.get(0);
                 fileStream = fileStream.filter(p -> !p.getFileName().toString().matches(regex));
             }
 
